@@ -83,7 +83,7 @@ const Products = () => {
                                             <Card.Body>
                                                 <Card.Title>{news.title}</Card.Title>
                                                 <Card.Text>
-                                                    {news.price}
+                                                    ${news.price}
                                                 </Card.Text>
                                             </Card.Body>
                                             </Link>

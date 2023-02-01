@@ -13,6 +13,11 @@ const ProductsDetail = () => {
 
     const productsList = useSelector(state => state.news)
 
+    /* const newsFound = newsList.find(newItem => newsItem.id ===Number.id)
+    const relatedNews = newsList.filter(newsItem =>
+   newsItem.category.id === newsFound.category.id &&
+   newsItem.id !== newsFound.id
+ */
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
@@ -35,7 +40,7 @@ const ProductsDetail = () => {
             <h1>{news.brand}</h1>
             <Row>
                 <Col lg={9}>
-                    <img src={news.images?.[0].url} alt="" className='img-fluid' />
+                    <img src={news.images?.[0].url} alt="" className='img-fluid' style={{ width: 200 }} />
                     <p>{news.description}</p>
                 </Col>
                 <Col lg={3}>
@@ -43,23 +48,23 @@ const ProductsDetail = () => {
 
                     <ListGroup variant="flush">
                         {productsList.map(productItem => (
-                            <ListGroup.Item   >
-                                <Link to={`/product/${news.id}`} style ={{textDecoration: "none"}}>
-                                key={productItem.id}
-                                    onClick={() => navigate(`/product/${productItem.id}`)}
+                            <ListGroup.Item key={productItem.id}  >
+                                <Link to={`/product/${productItem.id}`} style={{ textDecoration: "none" }} onClick={() => navigate(`/product/${productItem.id}`)}>
                                     {productItem.title}
-                                  <img src={news.images?.[0].url} className="img-fluid"/> 
+                                    <br />
+                                    <img src={productItem.images?.[0].url} className="img-fluid" style={{ width: 200 }} />
+                                    
                                 </Link>
 
                             </ListGroup.Item>
-                             ))
-                            }
-        
+                        ))
+                        }
+
                     </ListGroup>
 
 
 
-                   
+
 
                 </Col>
             </Row>
