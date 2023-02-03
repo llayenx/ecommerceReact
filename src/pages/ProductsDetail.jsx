@@ -1,8 +1,9 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Col, ListGroup, ModalTitle, Row } from 'react-bootstrap';
+import { Card, Carousel, Col, ListGroup, ModalTitle, Row } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate, useParams } from 'react-router-dom';
+import { addCartThunk } from '../store/slices/addCart.slice';
 import { filterNewsCategoryThunk } from '../store/slices/news.slice';
 
 const ProductsDetail = () => {
@@ -13,11 +14,6 @@ const ProductsDetail = () => {
 
     const productsList = useSelector(state => state.news)
 
-    /* const newsFound = newsList.find(newItem => newsItem.id ===Number.id)
-    const relatedNews = newsList.filter(newsItem =>
-   newsItem.category.id === newsFound.category.id &&
-   newsItem.id !== newsFound.id
- */
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
@@ -30,43 +26,105 @@ const ProductsDetail = () => {
 
     }, [id])
 
-    console.log(news)
+    const [productID, setProductId] = useState("")
 
-
+    const addToPurchases = () => {
+        const product = {
+            quantity: 1,
+            productId: news.id
+        }
+        dispatch(addCartThunk(product))
+    }
 
 
     return (
         <div>
             <h1>{news.brand}</h1>
+
+
             <Row>
-                <Col lg={9}>
-                    <img src={news.images?.[0].url} alt="" className='img-fluid' style={{ width: 200 }} />
-                    <p>{news.description}</p>
-                </Col>
-                <Col lg={3}>
-                    <h3>Related Products</h3>
+                <div className='container-superior' >
+                    <Carousel className='carousel' variant="dark" >
+                        <Carousel.Item>
+                            <div className='container-image-description'>
+                                <img
+                                    className="d-block w-100"
+                                    src={news.images?.[0].url}
+                                />
+                            </div>
+                        </Carousel.Item>
 
-                    <ListGroup variant="flush">
-                        {productsList.map(productItem => (
-                            <ListGroup.Item key={productItem.id}  >
-                                <Link to={`/product/${productItem.id}`} style={{ textDecoration: "none" }} onClick={() => navigate(`/product/${productItem.id}`)}>
-                                    {productItem.title}
-                                    <br />
-                                    <img src={productItem.images?.[0].url} className="img-fluid" style={{ width: 200 }} />
-                                    
-                                </Link>
+                        <Carousel.Item>
+                            <div className='container-image-description'>
+                                <img
+                                    className="d-block w-100"
+                                    src={news.images?.[1].url}
+                                />
+                            </div>
+                        </Carousel.Item>
 
-                            </ListGroup.Item>
-                        ))
-                        }
+                        <Carousel.Item>
+                            <div className='container-image-description'>
+                                <img
+                                    className="d-block w-100"
+                                    src={news.images?.[2].url}
+                                />
+                            </div>
+                        </Carousel.Item>
+                    </Carousel>
 
-                    </ListGroup>
+
+                    {/* 
+                 <div className='container-superior'> */}
+                    {/* <div className='container-image-description'>
+                        <img src={news.images?.[0].url} alt="" />
+                    </div>
+ */}
+
+                    <div className='container-description'>
+                        <p className='p'>{news.description}</p>
+                        <input
+                            type="text"
+                            value={productID}
+                            onChange={e => setProductId(e.target.value)} />
+                        <div className='container-button'>
+                            <button className='button-input' onClick={addToPurchases}> Add to Cart <i className='bx bxs-cart-add' ></i> </button>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>Related Products</h3>
+                <Row xs={1} md={2} lg={3} className="g-4">
 
 
+                    {productsList.map(news => (
 
+                        <Col key={news.id}>
+                            <Card key={news.id} onClick={() => navigate(`/product/${news.id}`)}>
+                                <Card.Img className="g-3"
+                                    variant="top"
+                                    style={{ height: 200, objectFit: "contain", paddingTop: "1rem" }}
+                                    src={news.images?.[0].url} alt="producto"
+                                />
+                                <Card.Body className='card-body'>
+                                    <Card.Title class>{news.title}</Card.Title>
+                                    <div className='container-car-price'>
+                                        <div>
+                                            <Card.Text>
+                                                Price: $ {news.price}
+                                            </Card.Text>
+                                        </div>
+                                        <div className='car-container'>
 
+                                            <i className='bx bxs-cart'></i>
+                                        </div>
+                                    </div>
+                                </Card.Body>
+                            </Card>
+                        </Col>
 
-                </Col>
+                    ))}
+                </Row>
             </Row>
 
 

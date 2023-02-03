@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { Card, Col, Row } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getPurchasesThunk } from '../store/slices/purchases.slice';
@@ -18,24 +19,35 @@ const Purchases = () => {
     return (
         <div>
             <h1>Purchases</h1>
-            <ul>
-                {purchases.map(purchase => (
+            <Row xs={1} md={2} lg={3} className="g-4">
 
-                    <li key = {purchase.product.id}>
-                        <Link to={`/product/${purchase.product.id}`}>
-                        {purchase.product.brand}
-                        <br />
-                        <img src={purchase.product?.images[0].url} alt="" style={{ width: 200 }} />
-                        <br />
-                        ${purchase.product.price}
-                        </Link>
-                    </li>
+                {purchases.map(news => (
 
-
+                    <Col key={news.product.id}>
+                        <Card key={news.product.id} onClick={() => navigate(`/product/${news.id}`)}>
+                        
+                            <Card.Img className="g-3"
+                                variant="top"
+                                style={{ height: 200, objectFit: "contain", paddingTop: "1rem" }}
+                                src={news.product.images?.[0].url} alt="producto"
+                            />
+                            <Card.Body className='card-body'>
+                                <Card.Title class>{news.product.title}</Card.Title>
+                                <div className='container-car-price'>
+                                    <div>
+                                        <Card.Text>
+                                            Price: $ {news.product.price}
+                                        </Card.Text>
+                                    </div>
+                                   
+                                </div>
+                            </Card.Body>
+                        
+                        </Card>
+                    </Col>
 
                 ))}
-            </ul>
-
+            </Row>
         </div>
     );
 };

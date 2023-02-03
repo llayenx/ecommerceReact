@@ -25,6 +25,8 @@ export const getPurchasesThunk = () => (dispatch) => {
       .then((res) => dispatch(setPurchases(res.data)))
       .finally(() => dispatch(setIsLoading(false)));
   };
+
+ 
   
 
 export const { setPurchases } = purchasesSlice.actions;

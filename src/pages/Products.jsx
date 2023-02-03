@@ -10,7 +10,7 @@ import { Form } from 'react-bootstrap';
 import { Row } from 'react-bootstrap';
 import { Col } from 'react-bootstrap';
 import { Card } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import FilterPrice from '../components/FilterPrice';
 
 
 const Products = () => {
@@ -36,11 +36,14 @@ const Products = () => {
         <div>
             <Row>
                 <Col lg={3}>
+                    < FilterPrice />
+                    <br />
+                    <h4>Category</h4>
                     <ListGroup>
                         {
                             categories.map(category => (
-                                <ListGroup.Item key={category.id} 
-                                onClick={() => dispatch(filterNewsCategoryThunk(category.id))}>
+                                <ListGroup.Item key={category.id}
+                                    onClick={() => dispatch(filterNewsCategoryThunk(category.id))}>
                                     {category.name}
                                 </ListGroup.Item>
 
@@ -51,14 +54,14 @@ const Products = () => {
                 <Col lg={9}>
                     <h1>Products</h1>
                     <InputGroup className="mb-3">
-                        <Form.Control 
+                        <Form.Control
                             placeholder="Recipient's username"
                             aria-label="Recipient's username"
                             aria-describedby="basic-addon2"
                             value={productsSearch}
                             onChange={e => setProductsSearch(e.target.value)}
                         />
-                       
+
                         <Button
                             onClick={() => dispatch(filterProductsHeadlineThunk(productsSearch))}
                             variant="outline-secondary"
@@ -68,35 +71,41 @@ const Products = () => {
                     </InputGroup>
 
                     <ul>
-
                         <Row xs={1} md={2} lg={3} className="g-4">
-
                             {newsList.map(news => (
-                                <li key={news.id} onClick={() => navigate(`/product/${news.id}`)}>
-                                    <Col>
-                                        <Card>
-                                            <Link to={`/product/${news.id}`} style ={{textDecoration: "none"}}>
-                                            <Card.Img 
-                                            variant="top" 
-                                            src={news.images[0].url} alt="" 
-                                            style={{ heigh: 200, objectFit: "contain" }} />
-                                            <Card.Body>
-                                                <Card.Title>{news.title}</Card.Title>
-                                                <Card.Text>
-                                                    ${news.price}
-                                                </Card.Text>
-                                            </Card.Body>
-                                            </Link>
-                                        </Card>
-                                    </Col>
-                             </li>
+
+                                <Col key={news.id}>
+                                    <Card key={news.id} onClick={() => navigate(`/product/${news.id}`)}>
+                                        {/*    // <Link to={`/product/${news.id}`} style={{ textDecoration: "none" }}> */}
+                                        <Card.Img className="g-3"
+                                            variant="top"
+                                            style={{ height: 200, objectFit: "contain", paddingTop: "1rem" }}
+                                            src={news.images?.[0].url} alt="producto"
+                                        />
+                                        <Card.Body className='card-body'>
+                                            <Card.Title className>{news.title}</Card.Title>
+                                            <div className='container-car-price'>
+                                                <div>
+                                                    <Card.Text>
+                                                        Price: $ {news.price}
+                                                    </Card.Text>
+                                                </div>
+                                                <div className='car-container'>
+
+                                                    <i className='bx bxs-cart'></i>
+                                                </div>
+                                            </div>
+                                        </Card.Body>
+                                    </Card>
+                                </Col>
+
                             ))}
                         </Row>
                     </ul>
-                    </Col>
-                    </Row>
-                </div >
-                );
+                </Col>
+            </Row>
+        </div >
+    );
 };
 
-                export default Products;
+export default Products;

@@ -36,6 +36,13 @@ export const filterProductsHeadlineThunk = (productsSearch) => dispatch => {
         .finally(() => dispatch(setIsLoading(false)));
 }
 
+/* export const filterProductsPriceThunk = (productsPrice) => dispatch => {
+    dispatch(setIsLoading(true));
+    return axios.get(`https://e-commerce-api-v2.academlo.tech/api/v1/products?price=${productsPrice}`)
+        .then(res => dispatch(setNews(res.data)))
+        .finally(() => dispatch(setIsLoading(false)));
+} */
+
 export const { setNews  } = newsSlice.actions;
 
 export default newsSlice.reducer;
